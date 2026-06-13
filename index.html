@@ -28,6 +28,20 @@
     .mobile-menu a{font-size:0.9rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none}
     .mobile-menu a:hover{color:var(--red)}
 
+    /* INTERESTS DROPDOWN */
+    .nav-dropdown{position:relative}
+    .nav-dropdown>a{display:flex;align-items:center;gap:.35rem;cursor:pointer}
+    .nav-dropdown>a svg{width:10px;height:10px;transition:transform .25s}
+    .nav-dropdown:hover>a{color:var(--red)}
+    .nav-dropdown:hover>a svg{transform:rotate(180deg)}
+    .dropdown-menu{visibility:hidden;opacity:0;pointer-events:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:14px;transition:opacity .18s,visibility .18s;z-index:200}
+    .dropdown-menu-inner{background:rgba(249,245,239,0.98);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:14px;padding:.6rem;min-width:190px;box-shadow:0 12px 40px rgba(20,16,16,.1)}
+    .nav-dropdown:hover .dropdown-menu,.dropdown-menu:hover{visibility:visible;opacity:1;pointer-events:auto}
+    .dropdown-menu-inner a{display:block;padding:.55rem 1rem;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:8px;transition:background .15s,color .15s;white-space:nowrap}
+    .dropdown-menu-inner a:hover{background:var(--warm);color:var(--red)}
+    .dropdown-menu-inner .soon{opacity:.38;font-size:.65rem;margin-left:.3rem}
+    .mobile-sub a{font-size:.78rem!important;padding-left:1.2rem;opacity:.8}
+
     /* HERO */
     .hero{min-height:100vh;display:grid;grid-template-columns:1fr 340px;gap:2rem;align-items:center;padding:8rem 3rem 4rem;position:relative;overflow:hidden}
     .hero-bg{position:absolute;right:-5%;top:5%;width:45vw;height:45vw;border-radius:50%;background:radial-gradient(circle at 40% 40%,#E8C4BF 0%,transparent 65%);opacity:.45;pointer-events:none}
@@ -182,7 +196,19 @@
       <li><a href="#projects">Work</a></li>
       <li><a href="#toolkit">Toolkit</a></li>
       <li><a href="#achievements">Achievements</a></li>
-      <li><a href="#interests">Interests</a></li>
+      <li class="nav-dropdown">
+        <a href="#interests">
+          Interests
+          <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3.5l3 3 3-3"/></svg>
+        </a>
+        <div class="dropdown-menu">
+          <div class="dropdown-menu-inner">
+            <a href="daily-drivers.html">Daily Drivers</a>
+            <a href="#">Magic <span class="soon">— soon</span></a>
+            <a href="#">More <span class="soon">— soon</span></a>
+          </div>
+        </div>
+      </li>
       <li><a href="#connect">Let's Talk</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -197,6 +223,8 @@
     <li><a href="#toolkit" onclick="closeMobile()">Toolkit</a></li>
     <li><a href="#achievements" onclick="closeMobile()">Achievements</a></li>
     <li><a href="#interests" onclick="closeMobile()">Interests</a></li>
+    <li class="mobile-sub"><a href="daily-drivers.html" onclick="closeMobile()">↳ Daily Drivers</a></li>
+    <li class="mobile-sub"><a href="#" onclick="closeMobile()" style="opacity:.4">↳ Magic — soon</a></li>
     <li><a href="#connect" onclick="closeMobile()">Let's Talk</a></li>
   </ul>
 </div>
@@ -411,7 +439,7 @@
   <h2>What gets me going.</h2>
   <p style="color:var(--muted);max-width:480px;line-height:1.75;margin-bottom:2.5rem;font-weight:300;">Wide interests &#8212; pure joy when I find something I like.</p>
   <div class="int-grid">
-    <div class="int-card"><div class="int-icon">&#x2328;&#xFE0F;</div><h3>Tech Peripherals</h3><p>Mechanical keyboards, headphones, and mice &#8212; ask me about any of it and we'll probably end up in a very long conversation.</p></div>
+    <a href="daily-drivers.html" class="int-card" style="text-decoration:none;color:inherit;cursor:pointer"><div class="int-icon">&#x2328;&#xFE0F;</div><h3>Tech Peripherals</h3><p>Mechanical keyboards, headphones, and mice &#8212; ask me about any of it and we'll probably end up in a very long conversation.</p><p style="font-size:.75rem;color:var(--red);font-weight:600;margin-top:.75rem;letter-spacing:.05em">See my daily drivers →</p></a>
     <div class="int-card"><div class="int-icon">&#x1F0CF;</div><h3>Magic</h3><p>I learn and perform magic. Great icebreaker, and honestly &#8212; the best party trick I have.</p></div>
     <div class="int-card"><div class="int-icon">&#x26BD;</div><h3>Arsenal FC</h3><p>COYG. Started following Arsenal more closely after my exchange to London &#8212; and never looked back. What do I think of Tottenham? Better not to ask.</p></div>
     <div class="int-card"><div class="int-icon">&#x1F3AD;</div><h3>Musicals</h3><p>Phantom of the Opera, Wicked, Back to the Future &#8212; I have strong feelings about all of them. Ask me which one wins.</p></div>
