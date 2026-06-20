@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Why I took the scenic route — First Principles</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' transform='scale(-1,1) translate(-100,0)'>🚶🏻</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ink:#141010;--cream:#F9F5EF;--warm:#F0EAE0;--red:#C0392B;--red-light:#E8C4BF;--muted:#8A7E75;--border:#E2D9CE;--card:#FFFBF7}
+    html{scroll-behavior:smooth}
+    body{font-family:"Outfit",sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden}
+    .page-wrap{max-width:780px;margin:0 auto;padding:0 2rem}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(249,245,239,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3rem}
+    .nav-logo{font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--ink);text-decoration:none}
+    .nav-logo span{color:var(--red);font-style:italic}
+    .nav-back{font-size:0.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+    .nav-back:hover{color:var(--red)}
+
+    .post-header{padding:9rem 0 3rem}
+    .post-tag{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;display:block}
+    .post-header h1{font-family:"Playfair Display",serif;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.5rem}
+    .post-meta{display:flex;gap:1.5rem;font-size:.8rem;color:var(--muted);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+
+    .post-hero{margin:2.5rem 0;border-radius:20px;overflow:hidden;position:relative;height:380px;background:linear-gradient(135deg,#3D5A80 0%,#6B8FAB 50%,#98B4C8 100%)}
+    .takeaways{position:absolute;bottom:2rem;left:2rem;max-width:400px;background:rgba(249,245,239,0.92);backdrop-filter:blur(12px);border-radius:16px;padding:1.5rem}
+    .takeaways h3{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:1rem}
+    .takeaways ul{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+    .takeaways ul li{font-size:.82rem;color:#5C4F45;line-height:1.55;padding-left:1rem;position:relative}
+    .takeaways ul li::before{content:"·";position:absolute;left:0;color:var(--red);font-weight:700}
+
+    .post-body{padding:3rem 0 5rem}
+    .post-body p{font-size:1.05rem;line-height:1.85;color:#4A3F37;margin-bottom:1.75rem;font-weight:300}
+    .post-body h2{font-family:"Playfair Display",serif;font-size:1.6rem;margin:2.5rem 0 1rem;line-height:1.2}
+    .post-body h3{font-family:"Playfair Display",serif;font-size:1.2rem;margin:2rem 0 .75rem;font-style:italic;color:var(--red)}
+    .post-body blockquote{border-left:3px solid var(--red);padding:1rem 1.5rem;margin:2rem 0;background:var(--card);border-radius:0 12px 12px 0}
+    .post-body blockquote p{font-family:"Playfair Display",serif;font-style:italic;font-size:1.1rem;color:var(--ink);margin:0}
+    .post-divider{border:none;border-top:1px solid var(--border);margin:2.5rem 0}
+
+    .connect-box{max-width:740px;background:var(--red);color:#fff;border-radius:28px;padding:4rem;position:relative;overflow:hidden;margin:0 auto 6rem}
+    .connect-box::before{content:"";position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+    .connect-box .eyebrow-white{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.75rem;display:block}
+    .connect-box h2{font-family:"Playfair Display",serif;font-size:clamp(1.9rem,3.5vw,2.7rem);color:#fff;margin-bottom:1rem}
+    .connect-box p{color:rgba(255,255,255,.75);line-height:1.8;margin-bottom:2.25rem;font-size:1rem;font-weight:300}
+    .connect-links{display:flex;gap:1rem;flex-wrap:wrap}
+    .cl{display:inline-block;padding:.8rem 1.75rem;border-radius:999px;font-size:.875rem;font-weight:600;text-decoration:none;transition:transform .2s}
+    .cl:hover{transform:translateY(-2px)}
+    .cl.white{background:#fff;color:var(--red)}
+    .cl.outline{border:1.5px solid rgba(255,255,255,.4);color:#fff}
+    .cl.outline:hover{background:rgba(255,255,255,.1)}
+
+    .post-body .hl{color:var(--red);font-weight:600}
+    .post-body strong{color:var(--red);font-weight:600}
+    .takeaways strong{color:var(--red);font-weight:700}
+
+    @media(max-width:760px){
+      .nav-inner{padding:1rem 1.5rem}
+      .post-hero{height:280px}
+      .takeaways{max-width:90%;left:1rem;bottom:1rem}
+      .connect-box{padding:2.5rem 2rem}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">Christian Lim &nbsp;<span>/ First Principles</span></a>
+    <a class="nav-back" href="../index.html">&#8592; All posts</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="post-header">
+    <span class="post-tag">Self · Reflections</span>
+    <h1>Why I took the scenic route — and why I don't regret it</h1>
+    <div class="post-meta">
+      <span>June 2026</span>
+      <span>6 min read</span>
+    </div>
+  </div>
+
+  <div class="post-hero">
+    <div class="takeaways">
+      <h3>Key Takeaways</h3>
+      <ul>
+        <li><strong>Take engineering if you're genuinely curious</strong> — it's a structured, rigorous way to understand how the world works.</li>
+        <li><strong>Take it for the optionality.</strong> Engineering opens doors to business; the reverse is far less true.</li>
+        <li><strong>Don't take it expecting an edge in the job market</strong> — it may even set you back if you're not intentional.</li>
+        <li><strong>I have no regrets:</strong> extraordinary people, sharper problem-solving, and a bet that paid off.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <p><em>The other day, someone asked me about this topic — so for the individual who is interested in a business or finance role but is considering engineering for their undergraduate degree, this one is especially for you.</em></p>
+
+    <p>In 2020, <strong>I had to</strong> <strong>choose between engineering and business</strong> for university.</p>
+
+    <p><strong>I had tried engineering</strong> on two occasions before — a hardware internship designing electrical schematics for a vertical farm, and a software role where I built and optimised my own ML model (even before it was cool). <strong>But I never felt the spark.</strong></p>
+
+    <p>At the same time, I was teaching myself about <strong>business</strong> on the side, and <strong>I found that significantly more exciting.</strong> I loved how businesses, at their core, solved problems and made money from it. And as an extrovert, I was drawn to how business work seemed to require you to understand and interact with people.</p>
+
+    <p>Most people in my position would have picked the obvious path. <strong>I picked engineering.</strong></p>
+
+    <p>Not because I wanted to be an engineer — I was 99% sure I was heading into a business or finance role. <strong>Two reasons</strong> drove me to take the scenic route instead.</p>
+
+    <hr class="post-divider"/>
+
+    <h2>The first reason was curiosity.</h2>
+
+    <p>Having spent years in math and science, <strong>I wanted to continue learning about the world and how it worked</strong> — not in the abstract, philosophical sense, but in the literal one. Why circuits behave the way they do. Why systems fail at certain points and not others. Why some structures are robust while others collapse. Engineering would give me a structured, rigorous way to satisfy that curiosity.</p>
+
+    <h2>The second reason was optionality.</h2>
+
+    <p><strong>If I did engineering, I could always <span class="hl">pivot to business later.</span></strong> The reverse was true to a significantly lesser extent. The people around me kept reinforcing this — that an engineering degree would equip you to do many other things, while a business degree wouldn't adequately prepare you for engineering work.</p>
+
+    <p>At the time I bought into the social proof. And <strong>it felt like <span class="hl">an asymmetric bet</span></strong>: the downside was a few hard years of studying, but the upside was optionality — even if the likelihood of me becoming an engineer seemed infinitesimal.</p>
+
+    <h2>On the practical side…</h2>
+
+    <p>Thankfully, I was also decent at math and science — so I had confidence that with hard work, <strong>I probably could survive the academic rigor</strong>. That freed me to choose engineering without too much fear.</p>
+
+    <hr class="post-divider"/>
+
+    <h2>However, engineering does not get your foot in the door — it may even set you back.</h2>
+
+    <p>My experience is that <span class="hl">recruiters don't give you bonus points</span> during the application process for being able to solve differential equations. <strong>Candidates still need to signal their interest and aptitude</strong> for a given role — and this is not always straightforward as an engineer.</p>
+
+    <p><strong>Engineering school is hard.</strong> Students spend years mastering complex concepts and solving difficult problems daily. Time is a scarce resource, and <strong>the time spent on engineering could have been directly invested in furthering an interest in business/finance.</strong></p>
+
+    <blockquote>
+      <p>"Without a level of intentionality, doing engineering school will not be the scenic path — it would just be a wrong turn."</p>
+    </blockquote>
+
+    <p><strong>Candidates must go above and beyond</strong> to explore their business/finance interests outside of their coursework. Sacrifices will be made. For me, it was my interest in business that drove me to join a case competition club, compete actively, and apply for business and consulting internships. On hindsight, if I had not done that, the pivot would have been significantly more challenging.</p>
+
+    <hr class="post-divider"/>
+
+    <h2>I don't regret the scenic path — for two key reasons.</h2>
+
+    <p>In the toughest moments <strong>I did wonder:</strong> <em>"Was satisfying my curiosity and creating optionality really <strong>worth it?</strong> Given that I was fairly certain I was going to gun for business roles, why did I need to study engineering to this level of detail?"</em></p>
+
+    <p>But as the old adage goes — this too shall pass. <strong>A stubborn belief in the wisdom of the masses</strong> and a <strong>good support system</strong> helped me not only survive engineering school but leave with no regrets.</p>
+
+    <h3>Sharper problem-solving.</h3>
+
+    <p>Everyone says that engineering school makes you a good problem solver. Having been through it, I find that claim consistent with my experience.</p>
+
+    <p><strong>The engineers I have interacted with are methodical</strong>. <strong>Engineering problems</strong> — whether exam questions or practical challenges — are rarely solved with a single equation or an easy fix. <strong>They are complex, and require multiple steps to address.</strong> Faced with this repeatedly, engineers learn to think about what needs to be done, prioritise the most actionable steps, and move forward deliberately.</p>
+
+    <p><strong>But what truly makes engineers exceptional problem solvers isn't just their methodology — it's also their <span class="hl">mindset</span></strong>. Engineering cultivates a deep-seated conviction that <span class="hl">every problem has a solution</span>. Forged through years of grueling coursework and real challenges, those who persevere develop an almost unshakeable belief in what is achievable. Failure doesn't deter them. Doubt doesn't stop them. This relentless belief — that outcomes can be reached no matter the odds — is the invisible force behind engineering's greatest strength.</p>
+
+    <h3>Extraordinary people.</h3>
+
+    <p>My engineering experience was made even better by the <span class="hl">people I met along the way</span> — some of the most driven, hilarious, kind, and selfless humans I have come across. People who shaped how I think, how I act, and how I endeavour to be better. Without choosing engineering, I would never have met them — and they are another reason why <strong>I have no regrets</strong>.</p>
+
+    <hr class="post-divider"/>
+
+    <p><strong>The scenic route paid off.</strong> Choosing engineering over business was never about becoming an engineer — it was a calculated bet on curiosity and optionality. The rigor sharpened how I solve problems. The knowledge satisfied a curiosity I've always had. But also, as the saying goes, it's about the friends you make along the way. And for the ones I met, I have been — and will continue to be — deeply inspired.</p>
+
+    <p style="font-size:.88rem;color:var(--muted);font-style:italic;">This is the first post in First Principles — a place of expression.</p>
+
+  </div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:0 3rem">
+  <div class="connect-box">
+    <span class="eyebrow-white">Let's connect</span>
+    <h2>I want to hear<br/>from you.</h2>
+    <p>If something here resonated &#8212; I'd love to hear from you.</p>
+    <div class="connect-links">
+      <a href="https://www.linkedin.com/in/christianlimsz" class="cl white" target="_blank">Find me on LinkedIn</a>
+      <a href="mailto:christianlimsz@gmail.com" class="cl outline">Send an email</a>
+    </div>
+  </div>
+</div>
+
+<footer><p>First Principles &middot; Christian Lim &middot; <a href="../index.html" style="color:var(--muted);text-decoration:none;">Back to main site</a></p></footer>
+
+</body>
+</html>
